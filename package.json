@@ -3,7 +3,7 @@
   "description": "Webcomponent pressbooks-select following open-wc recommendations",
   "author": "Pressbooks (Book Oven Inc.)",
   "license": "MIT",
-  "version": "2.4.1",
+  "version": "0.0.1",
   "main": "index.js",
   "module": "index.js",
   "repository": {
