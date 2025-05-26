@@ -1,0 +1,17 @@
+.editorconfig
+.github
+.nvmrc
+.release-please-manifest.json
+.storybook
+.vscode
+.zed
+biome.json
+commitlint.config.js
+coverage
+demo
+release-please-config.json
+stories
+storybook-static
+test
+web-dev-server.config.mjs
+web-test-runner.config.mjs

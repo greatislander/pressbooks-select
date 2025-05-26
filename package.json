@@ -1,0 +1,52 @@
+{
+  "name": "@pressbooks/select",
+  "description": "Webcomponent pressbooks-select following open-wc recommendations",
+  "author": "Pressbooks (Book Oven Inc.)",
+  "license": "MIT",
+  "version": "2.4.1",
+  "main": "index.js",
+  "module": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pressbooks/pressbooks-select.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pressbooks/pressbooks-select/issues"
+  },
+  "homepage": "https://github.com/pressbooks/pressbooks-select#readme",
+  "scripts": {
+    "analyze": "cem analyze --litelement",
+    "start": "web-dev-server",
+    "lint": "biome check",
+    "format": "biome check --write",
+    "test": "web-test-runner --coverage",
+    "test:watch": "web-test-runner --watch",
+    "storybook": "npm run analyze -- --exclude dist && web-dev-server -c .storybook/server.mjs",
+    "storybook:build": "npm run analyze -- --exclude dist && build-storybook",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "lit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@custom-elements-manifest/analyzer": "^0.10.0",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server": "^0.4.2",
+    "@web/dev-server-storybook": "2.0.3",
+    "@web/test-runner": "^0.20.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^16.0.0"
+  },
+  "customElements": "custom-elements.json",
+  "lint-staged": {
+    "*.{css,js,mjs}": [
+      "biome check --write"
+    ]
+  },
+  "directories": {
+    "test": "test"
+  }
+}
