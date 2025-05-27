@@ -54,7 +54,7 @@ elements, the select will group options using the [ARIA grouped listbox pattern]
 ### Styling
 
 Because this web component uses the Shadow Dom, styling is limited to modification via CSS custom properties. However,
-[there are plenty to choose from](https://github.com/greatislander/pressbooks-select/blob/a87fab1f7b3ea967b3ae6b58400ed863084326ee/src/Pressbooksselect.js#L4-L146).
+[there are plenty to choose from](https://github.com/greatislander/pressbooks-select/blob/389b198ced4dab74ce8b9ac351fd8198ab481672/src/PressbooksSelect.js#L5-L258).
 
 ## Linting and formatting
 
