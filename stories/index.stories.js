@@ -16,8 +16,39 @@ function Template({ slot, max, styles }) {
     </pressbooks-select> `;
 }
 
-export const Regular = Template.bind({});
-Regular.args = {
+export const Single = Template.bind({});
+Single.args = {
+  slot: html`<label for="wizard">Wizard</label>
+    <p id="wizard-hint" slot="after">Type to choose a wizard.</p>
+    <select
+      id="wizard"
+      name="wizard"
+      aria-describedby="wizard-hint"
+    >
+      <option value="gandalf">Gandalf</option>
+      <option value="radagast">Radagast</option>
+      <option value="saruman">Saruman</option>
+    </select>`,
+};
+
+export const SingleDisabled = Template.bind({});
+SingleDisabled.args = {
+  slot: html`<label for="wizard">Wizard</label>
+    <p id="wizard-hint" slot="after">Type to choose a wizard.</p>
+    <select
+      id="wizard"
+      name="wizard"
+      aria-describedby="wizard-hint"
+      disabled
+    >
+      <option value="gandalf">Gandalf</option>
+      <option value="radagast">Radagast</option>
+      <option value="saruman">Saruman</option>
+    </select>`,
+};
+
+export const Multiple = Template.bind({});
+Multiple.args = {
   max: 0,
   slot: html`<label for="dwarves">Dwarves</label>
     <select

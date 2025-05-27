@@ -26,6 +26,10 @@ export class PressbooksSelect extends LitElement {
         width: var(--pb-selected-options-width, 100%);
       }
 
+      .selected-options:not(:has(li)) {
+        margin-block: 0;
+      }
+
       .selected-options button {
         align-items: center;
         appearance: none;
@@ -102,6 +106,7 @@ export class PressbooksSelect extends LitElement {
       }
 
       .combo-container {
+        margin-block-start: 1em;
         max-width: var(--pb-combo-container-max-width, 100%);
         position: relative;
         width: var(--pb-combo-container-width, 100%);
@@ -131,6 +136,13 @@ export class PressbooksSelect extends LitElement {
         min-height: var(--pb-input-min-height, 30px);
         padding: var(--pb-input-padding, 0 8px);
         width: var(--pb-input-width, 100%);
+      }
+
+      input[data-multiple="false"] {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232c3338' class='size-5'%3E%3Cpath fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd' /%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;
+        background-position: center right;
+        padding: var(--pb-select-input-padding, 0 32px 0 8px);
       }
 
       input:focus {
@@ -255,6 +267,7 @@ export class PressbooksSelect extends LitElement {
       activeIndex: { type: Number },
       value: { type: String },
       open: { type: Boolean },
+      multiple: { type: Boolean },
       groups: { type: Array },
       options: { type: Object },
       selectedOptions: { type: Array },
@@ -271,6 +284,7 @@ export class PressbooksSelect extends LitElement {
     this.activeIndex = 0;
     this.value = '';
     this.open = false;
+    this.multiple = false;
     this.groups = [];
     this.options = {};
     this.selectedOptions = [];
@@ -346,6 +360,10 @@ export class PressbooksSelect extends LitElement {
     }
 
     return false;
+  }
+
+  get _input() {
+    return this.shadowRoot.querySelector('input');
   }
 
   get _selectionLessThanMax() {
@@ -432,12 +450,13 @@ export class PressbooksSelect extends LitElement {
         class="combo-input${
           this.open && this._selectionLessThanMax ? ' combo-open' : ''
         }"
+        data-multiple="${this.multiple}"
         ?disabled="${this.disabled || !this._selectionLessThanMax}"
         role="combobox"
         type="text"
+        value="${this.value}"
         @input="${this._handleInput}"
         @focus="${this._handleInputFocus}"
-        @blur="${this._handleInputBlur}"
         @keydown="${this._handleInputKeydown}"
       />
       <ul
@@ -480,10 +499,11 @@ export class PressbooksSelect extends LitElement {
       <div class="pressbooks-multiselect">
         <slot></slot>
         ${
-          this.htmlId !== '' && this.label !== ''
+          this.htmlId !== '' && this.label !== '' && this.multiple
             ? this.selectionsTemplate()
             : nothing
         }
+        <pre>${this.value}</pre>
         ${
           this.htmlId !== '' && this.label !== ''
             ? this.comboBoxTemplate()
@@ -496,17 +516,18 @@ export class PressbooksSelect extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('click', this._handleWindowClick);
+    window.addEventListener('click', this._handleWindowClick.bind(this));
   }
 
   disconnectedCallback() {
-    window.removeEventListener('click', this._handleWindowClick);
+    window.removeEventListener('click', this._handleWindowClick.bind(this));
     super.disconnectedCallback();
   }
 
   firstUpdated() {
     if (this._select) {
       this._select.hidden = true;
+      this.multiple = this._select.hasAttribute('multiple');
       this.htmlId = this._select.id;
       if (this._select.disabled) {
         this.disabled = this._select.disabled;
@@ -551,14 +572,30 @@ export class PressbooksSelect extends LitElement {
     this._select
       .querySelector(`option[value="${option}"]`)
       .setAttribute('selected', true);
-    this.selectedOptions.push(option);
+    if (this.multiple) {
+      this.selectedOptions.push(option);
+    } else {
+      this.selectedOptions = [option];
+      this._input.blur();
+      this._input.value = this.options[option].label;
+      this.open = false;
+      this.update();
+    }
   }
 
   removeOption(option) {
     this._select
       .querySelector(`option[value="${option}"]`)
       .removeAttribute('selected');
-    this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
+    if (this.multiple) {
+      this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
+    } else {
+      this.selectedOptions = [];
+      this._input.blur();
+      this._input.value = '';
+      this.open = false;
+      this.update();
+    }
   }
 
   updateMenuState(open) {
@@ -585,7 +622,9 @@ export class PressbooksSelect extends LitElement {
     this.requestUpdate();
     const container = this.shadowRoot.querySelector('.combo-menu');
     const item = this.shadowRoot.querySelector('.option-current');
-    container.scrollTop = item.offsetTop - container.offsetTop;
+    if (item) {
+      container.scrollTop = item.offsetTop - container.offsetTop;
+    }
   }
 
   _handleRemove(event) {
@@ -597,10 +636,6 @@ export class PressbooksSelect extends LitElement {
 
   _handleInputFocus() {
     this.updateMenuState(true);
-  }
-
-  _handleInputBlur() {
-    this.updateMenuState(false);
   }
 
   _handleInputKeydown(event) {
@@ -719,10 +754,8 @@ export class PressbooksSelect extends LitElement {
     if (option) {
       if (this.selectedOptions.indexOf(option) > -1) {
         this.removeOption(option);
-        this.value = '';
       } else {
         this.addOption(option);
-        this.value = '';
         this.filteredOptions = this.options;
         this.activeIndex = Object.keys(this.filteredOptions).indexOf(option);
       }
