@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, LitElement, nothing } from 'lit';
 import { map } from 'lit/directives/map.js';
 
 export class PressbooksSelect extends LitElement {
