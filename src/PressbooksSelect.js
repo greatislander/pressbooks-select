@@ -260,6 +260,8 @@ export class PressbooksSelect extends LitElement {
   static get properties() {
     return {
       htmlId: { type: String },
+      callFocus: { type: Boolean },
+      ignoreBlur: { type: Boolean },
       disabled: { type: Boolean },
       max: { type: Number },
       label: { type: String },
@@ -283,6 +285,8 @@ export class PressbooksSelect extends LitElement {
     this.htmlId = '';
     this.activeIndex = 0;
     this.value = '';
+    this.callFocus = false;
+    this.ignoreBlur = false;
     this.open = false;
     this.multiple = false;
     this.groups = [];
@@ -431,6 +435,7 @@ export class PressbooksSelect extends LitElement {
           role="option"
           data-option="${option}"
           @click="${this._handleOptionClick}"
+          @mousedown="${this._handleOptionMousedown}"
         >
           ${this.options[option].label}
         </li>`,
@@ -457,6 +462,7 @@ export class PressbooksSelect extends LitElement {
         value="${this.value}"
         @input="${this._handleInput}"
         @focus="${this._handleInputFocus}"
+        @blur="${this._handleInputBlur}"
         @keydown="${this._handleInputKeydown}"
       />
       <ul
@@ -517,10 +523,12 @@ export class PressbooksSelect extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('click', this._handleWindowClick.bind(this));
+    window.addEventListener('focus', this._handleWindowFocus.bind(this));
   }
 
   disconnectedCallback() {
     window.removeEventListener('click', this._handleWindowClick.bind(this));
+    window.removeEventListener('focus', this._handleWindowFocus.bind(this));
     super.disconnectedCallback();
   }
 
@@ -558,7 +566,24 @@ export class PressbooksSelect extends LitElement {
     }
   }
 
+  updated() {
+    if (this.callFocus === true) {
+      this._input.focus();
+      this.callFocus = false;
+    }
+  }
+
   _handleWindowClick(event) {
+    if (
+      !this.shadowRoot.contains(event.target) &&
+      !this.contains(event.target)
+    ) {
+      this.open = false;
+      this.update();
+    }
+  }
+
+  _handleWindowFocus(event) {
     if (
       !this.shadowRoot.contains(event.target) &&
       !this.contains(event.target)
@@ -598,8 +623,9 @@ export class PressbooksSelect extends LitElement {
     }
   }
 
-  updateMenuState(open) {
+  updateMenuState(open, callFocus = true) {
     this.open = open;
+    this.callFocus = callFocus;
   }
 
   getUpdatedIndex(current, max, action) {
@@ -636,6 +662,15 @@ export class PressbooksSelect extends LitElement {
 
   _handleInputFocus() {
     this.updateMenuState(true);
+  }
+
+  _handleInputBlur() {
+    if (this.ignoreBlur) {
+      this.ignoreBlur = false;
+      return;
+    }
+
+    this.updateMenuState(false, false);
   }
 
   _handleInputKeydown(event) {
@@ -694,6 +729,11 @@ export class PressbooksSelect extends LitElement {
       this.addOption(option);
     }
     this.requestUpdate();
+  }
+
+  _handleOptionMousedown() {
+    this.ignoreBlur = true;
+    this.callFocus = true;
   }
 
   getActionFromKey(event, menuOpen) {
