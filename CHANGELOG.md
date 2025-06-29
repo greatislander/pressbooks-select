@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0](https://github.com/greatislander/pressbooks-select/compare/v1.0.0-beta.1...v1.0.0) (2025-06-29)
+
+
+### Bug Fixes
+
+* close combobox on blur ([#18](https://github.com/greatislander/pressbooks-select/issues/18)) ([cbdd306](https://github.com/greatislander/pressbooks-select/commit/cbdd3061b8fa07f67655bf6f77bcb17167138d7e))
+
+
+### Miscellaneous Chores
+
+* **release:** release 1.0.0 ([6c64635](https://github.com/greatislander/pressbooks-select/commit/6c64635533bfde583366739fdc1c4db315e4415b))
+
 ## [1.0.0-beta.1](https://github.com/greatislander/pressbooks-select/compare/v0.1.0...v1.0.0-beta.1) (2025-05-27)
 
 
