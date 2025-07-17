@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/greatislander/pressbooks-select/compare/v1.0.0...v1.0.1) (2025-07-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency lit to v3.3.1 ([#24](https://github.com/greatislander/pressbooks-select/issues/24)) ([a42734a](https://github.com/greatislander/pressbooks-select/commit/a42734a5e4eb31fce6d6f558fcfe5c9256910d06))
+
 ## [1.0.0](https://github.com/greatislander/pressbooks-select/compare/v1.0.0-beta.1...v1.0.0) (2025-06-29)
 
 
