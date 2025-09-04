@@ -43,12 +43,12 @@ export class PressbooksSelect extends LitElement {
           --pb-button-font-family,
           -apple-system,
           BlinkMacSystemFont,
-          'Segoe UI',
+          "Segoe UI",
           Roboto,
           Oxygen-Sans,
           Ubuntu,
           Cantarell,
-          'Helvetica Neue',
+          "Helvetica Neue",
           sans-serif
         );
         font-size: var(--pb-button-font-size, 13px);
@@ -122,12 +122,12 @@ export class PressbooksSelect extends LitElement {
           --pb-input-font-family,
           -apple-system,
           BlinkMacSystemFont,
-          'Segoe UI',
+          "Segoe UI",
           Roboto,
           Oxygen-Sans,
           Ubuntu,
           Cantarell,
-          'Helvetica Neue',
+          "Helvetica Neue",
           sans-serif
         );
         font-size: var(--pb-input-font-size, 14px);
@@ -217,12 +217,12 @@ export class PressbooksSelect extends LitElement {
           --pb-combo-option-font-family,
           -apple-system,
           BlinkMacSystemFont,
-          'Segoe UI',
+          "Segoe UI",
           Roboto,
           Oxygen-Sans,
           Ubuntu,
           Cantarell,
-          'Helvetica Neue',
+          "Helvetica Neue",
           sans-serif
         );
         list-style: none;
@@ -245,7 +245,7 @@ export class PressbooksSelect extends LitElement {
         color: var(--pb-combo-option-color-active, #fff);
       }
 
-      .combo-option[aria-selected='true'] {
+      .combo-option[aria-selected="true"] {
         background: var(--pb-combo-option-background-selected, #d4002d);
         color: var(--pb-combo-option-color-selected, #fff);
       }
@@ -509,7 +509,6 @@ export class PressbooksSelect extends LitElement {
             ? this.selectionsTemplate()
             : nothing
         }
-        <pre>${this.value}</pre>
         ${
           this.htmlId !== '' && this.label !== ''
             ? this.comboBoxTemplate()
@@ -558,6 +557,10 @@ export class PressbooksSelect extends LitElement {
         this._select.querySelectorAll('option[selected]'),
       ).map(el => el.value);
       this.filteredOptions = this.options;
+      if (!this.multiple) {
+        this.value =
+          this._select.querySelector('option[selected]')?.textContent || '';
+      }
       this.groups = [
         ...new Set(
           Object.values(this.filteredOptions).map(option => option.group),
