@@ -587,13 +587,8 @@ export class PressbooksSelect extends LitElement {
   }
 
   _handleWindowFocus(event) {
-    if (
-      !this.shadowRoot.contains(event.target) &&
-      !this.contains(event.target)
-    ) {
-      this.open = false;
-      this.update();
-    }
+    this.open = false;
+    this.update();
   }
 
   addOption(option) {
