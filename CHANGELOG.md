@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/greatislander/pressbooks-select/compare/v1.0.1...v1.0.2) (2025-09-12)
+
+
+### Bug Fixes
+
+* don't check for node on window focus (resolves [#45](https://github.com/greatislander/pressbooks-select/issues/45)) ([#46](https://github.com/greatislander/pressbooks-select/issues/46)) ([0b9157a](https://github.com/greatislander/pressbooks-select/commit/0b9157af875db15690bec5de2a71e2479272d630))
+
 ## [1.0.1](https://github.com/greatislander/pressbooks-select/compare/v1.0.0...v1.0.1) (2025-09-11)
 
 
