@@ -32,7 +32,7 @@
     "@biomejs/biome": "^2.0.0",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
-    "@custom-elements-manifest/analyzer": "^0.10.0",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "@open-wc/testing": "^4.0.0",
     "@web/dev-server": "^0.4.0",
     "@web/dev-server-storybook": "^2.0.0",
