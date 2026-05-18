@@ -38,7 +38,7 @@
     "@web/dev-server-storybook": "^2.0.0",
     "@web/test-runner": "^0.20.0",
     "husky": "^9.1.0",
-    "lint-staged": "^16.0.0"
+    "lint-staged": "^17.0.0"
   },
   "customElements": "custom-elements.json",
   "lint-staged": {
